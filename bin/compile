@@ -21,6 +21,7 @@ else
 fi
 
 (
+    mv "${BUILD_DIR}/${APP_BASE}" "${STAGE}" &&
     if [ ! -z "$DEPENDENCIES" ]; then
         echo "Processing dependencies" | indent
         for DEPENDENCY in ${DEPENDENCIES}; do
@@ -28,15 +29,13 @@ fi
                 echo "Dependency ${DEPENDENCY} not found. Aborting" | indent
                 exit 1
             fi
-
-            echo "move DEPENDENCY into ${BUILD_DIR}/${APP_BASE}/node_modules/@milkshake/$(basename "$DEPENDENCY")"
-            mkdir -p "${BUILD_DIR}/${APP_BASE}/node_modules/@milkshake/"
-            mv -v "${BUILD_DIR}/${DEPENDENCY}" "${BUILD_DIR}/${APP_BASE}/node_modules/@milkshake/$(basename "$DEPENDENCY")"
+            TARGET="${BUILD_DIR}/../$(basename "$DEPENDENCY")"
+            echo "Lifting dependency ${DEPENDENCY} from '${BUILD_DIR}/${DEPENDENCY}' to '${TARGET}'." | indent | indent
+            mv -v "${BUILD_DIR}/${DEPENDENCY}" "${TARGET}"
         done
     fi &&
-    mv -v "${BUILD_DIR}/${APP_BASE}" "${STAGE}" &&
     rm -rf "${BUILD_DIR}" &&
-    mv -v "${STAGE}/$(basename "$APP_BASE")" "${BUILD_DIR}"
+    mv "${STAGE}/$(basename "$APP_BASE")" "${BUILD_DIR}"
 )
 
 if [ $? -ne 0 ]; then
