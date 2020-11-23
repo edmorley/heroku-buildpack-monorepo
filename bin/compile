@@ -12,10 +12,13 @@ if [ ! -f "${ENV_DIR}/APP_BASE" ]; then
     echo "APP_BASE was not set. Aborting" | indent
     exit 1
 fi
+
+find ${ENV_DIR} | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
+
 APP_BASE="$(cat "${ENV_DIR}/APP_BASE")"
 
 (
-    mv "${ENV_DIR}/babel.config.json" "${STAGE}" &&
+    mv "${BUILD_DIR}/babel.config.json" "${STAGE}" &&
     mv "${BUILD_DIR}/${APP_BASE}" "${STAGE}" &&
     rm -rf "${BUILD_DIR}" &&
     mv "${STAGE}/$(basename "$APP_BASE")" "${BUILD_DIR}" &&
