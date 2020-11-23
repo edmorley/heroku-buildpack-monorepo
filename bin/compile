@@ -21,7 +21,7 @@ APP_BASE="$(cat "${ENV_DIR}/APP_BASE")"
     mv "${STAGE}/$(basename "$APP_BASE")" "${BUILD_DIR}"
 )
 
-tree -d "${BUILD_DIR}"
+find . | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
 
 if [ $? -ne 0 ]; then
     echo "FAILED to copy directory into place" | indent
