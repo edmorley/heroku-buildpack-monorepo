@@ -18,7 +18,7 @@ echo "=================================="
 APP_BASE="$(cat "${ENV_DIR}/APP_BASE")"
 
 (
-    mv "${BUILD_DIR}/babel.config.json" "${STAGE}" &&
+    mv "${BUILD_DIR}/babel.config.json" "${STAGE}/$(basename "$APP_BASE")" &&
     find ${STAGE} | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/" &&
     echo "==================================" &&
     mv "${BUILD_DIR}/${APP_BASE}" "${STAGE}" &&
