@@ -18,10 +18,11 @@ APP_BASE="$(cat "${ENV_DIR}/APP_BASE")"
     mv "${BUILD_DIR}/babel.config.json" "${STAGE}" &&
     mv "${BUILD_DIR}/${APP_BASE}" "${STAGE}" &&
     rm -rf "${BUILD_DIR}" &&
-    mv "${STAGE}/$(basename "$APP_BASE")" "${BUILD_DIR}"
+    mv "${STAGE}/$(basename "$APP_BASE")" "${BUILD_DIR}" &&
+    find ${BUILD_DIR} | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
 )
 
-find . | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"
+
 
 if [ $? -ne 0 ]; then
     echo "FAILED to copy directory into place" | indent
