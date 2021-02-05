@@ -18,8 +18,8 @@ fi
 
 (
     mv "${BUILD_DIR}/${APP_BASE}" "${STAGE}" &&
-    mv "${BUILD_DIR}/bin" "${STAGE}/${APP_BASE}" &&
-    mv "${BUILD_DIR}/.profile.d" "${STAGE}/${APP_BASE}" &&
+    ([ ! -f "${BUILD_DIR}/bin" ] || mv "${BUILD_DIR}/bin" "${STAGE}/${APP_BASE}") &&
+    ([ ! -f "${BUILD_DIR}/.profile.d" ] || mv "${BUILD_DIR}/.profile.d" "${STAGE}/${APP_BASE}") &&
     rm -rf "${BUILD_DIR}" &&
     mv "${STAGE}/$(basename "$APP_BASE")" "${BUILD_DIR}"
 )
