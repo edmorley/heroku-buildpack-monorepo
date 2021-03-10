@@ -35,7 +35,7 @@ fi
         done
     fi &&
     rm -rf "${BUILD_DIR}" &&
-    mv "${STAGE}/$(basename "$APP_BASE")" "${BUILD_DIR}"
+    mv "${STAGE}/$(basename "$APP_BASE")" "${BUILD_DIR}/app"
 )
 
 if [ $? -ne 0 ]; then
