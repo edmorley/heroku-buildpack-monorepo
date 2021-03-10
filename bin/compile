@@ -29,12 +29,14 @@ fi
                 echo "Dependency ${DEPENDENCY} not found. Aborting" | indent
                 exit 1
             fi
-            TARGET="${BUILD_DIR}/../$(basename "$DEPENDENCY")"
+            TARGET="${BUILD_DIR}/$(basename "$DEPENDENCY")"
             echo "Lifting dependency ${DEPENDENCY} from '${BUILD_DIR}/${DEPENDENCY}' to '${TARGET}'." | indent | indent
+            mkdir "${TARGET}"
             mv -v "${BUILD_DIR}/${DEPENDENCY}" "${TARGET}"
         done
     fi &&
     rm -rf "${BUILD_DIR}" &&
+    mkdir "${BUILD_DIR}/app" &&
     mv "${STAGE}/$(basename "$APP_BASE")" "${BUILD_DIR}/app"
 )
 
