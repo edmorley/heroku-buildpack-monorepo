@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+
+# Ensure wildcards in globs match dotfiles too.
+shopt -s dotglob
+
 indent() {
     sed -u 's/^/       /'
 }
@@ -17,8 +21,8 @@ APP_BASE="$(cat "${ENV_DIR}/APP_BASE")"
 (
     mv "${BUILD_DIR}/${APP_BASE}" "${STAGE}" &&
     mv "${BUILD_DIR}" "${STAGE}/monorepo" &&
-    rm -rf "${BUILD_DIR}" &&
-    mv "${STAGE}/$(basename "$APP_BASE")" "${BUILD_DIR}" &&
+    rm -rf "${BUILD_DIR}"/* &&
+    mv "${STAGE}/$(basename "$APP_BASE")"/* "${BUILD_DIR}" &&
     mv "${STAGE}/monorepo" "${BUILD_DIR}" &&
     echo "${BUILD_DIR}/monorepo" > "${ENV_DIR}/MONOREPO_BASE"
 )
